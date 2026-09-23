@@ -1,0 +1,32 @@
+# Compiled Go files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Test coverage
+*.out
+coverage/
+
+# Build directories
+bin/
+build/
+dist/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE files
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
