@@ -81,43 +81,49 @@ func TestIsPalindrome(t *testing.T) {
 
 func TestCalc(t *testing.T) {
 	tests := []struct {
+		name     string
 		num1     float64
 		num2     float64
 		operator string
 		want     float64
+		wantErr  bool
 	}{
-		{10, 5, "+", 15},
-		{10, 5, "-", 5},
-		{10, 5, "*", 50},
-		{10, 4, "/", 2.5},
+		{"addition", 10, 5, "+", 15, false},
+		{"subtraction", 10, 5, "-", 5, false},
+		{"multiplication", 10, 5, "*", 50, false},
+		{"division", 10, 4, "/", 2.5, false},
+		{"division by zero", 10, 0, "/", 0, true},
+		{"invalid operator", 10, 5, "%", 0, true},
 	}
 
 	for _, test := range tests {
-		got, err := calc(test.num1, test.num2, test.operator)
-		if err != nil {
-			t.Errorf("unexpected error: %v", err)
-		}
-
-		if got != test.want {
-			t.Errorf(
-				"calc(%.2f %v %.2f) = %.2f, want %.2f",
+		t.Run(test.name, func(t *testing.T) {
+			got, err := calc(
 				test.num1,
-				test.operator,
 				test.num2,
-				got,
-				test.want,
+				test.operator,
 			)
-		}
-	}
 
-	_, err := calc(10, 0, "/")
+			if test.wantErr && err == nil {
+				t.Errorf("expecred error, got nil")
+				return
+			}
 
-	if err == nil {
-		t.Errorf("divizion by zero, but nil error")
-	}
+			if !test.wantErr && err != nil {
+				t.Errorf("unexpected error: %v", err)
+				return
+			}
 
-	_, err = calc(10, 5, "%")
-	if err == nil {
-		t.Errorf("wrong operator, but nil error")
+			if got != test.want {
+				t.Errorf(
+					"calc(%.2f %s %.2f) = %.2f; want %.2f",
+					test.num1,
+					test.operator,
+					test.num2,
+					got,
+					test.want,
+				)
+			}
+		})
 	}
 }
