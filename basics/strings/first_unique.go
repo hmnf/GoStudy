@@ -1,18 +1,16 @@
 package main
 
-import (
-	"slices"
-	"strings"
-)
-
 func FirstUnique(s string) int {
-	var deleted []string
+	count := make(map[rune]int)
+
+	for _, l := range s {
+		count[l]++
+	}
+
 	for i, l := range s {
-		s = strings.Replace(s, string(l), "", 1)
-		if !strings.Contains(s, string(l)) && !slices.Contains(deleted, string(l)) {
+		if count[l] == 1 {
 			return i
 		}
-		deleted = append(deleted, string(l))
 	}
 
 	return -1

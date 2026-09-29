@@ -14,8 +14,8 @@ func main() {
 }
 
 func Reverse(s string) string {
-	r := make([]rune, len(s))
-	i := len(s)
+	r := []rune(s)
+	i := len(r)
 	for _, l := range []rune(s) {
 		r[i-1] = l
 		i--

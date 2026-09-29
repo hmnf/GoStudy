@@ -28,6 +28,11 @@ func TestIsPalindrome(t *testing.T) {
 			s:    "",
 			want: true,
 		},
+		{
+			name: "unicode palindrome",
+			s:    "топот",
+			want: true,
+		},
 	}
 
 	for _, test := range tests {
