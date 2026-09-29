@@ -43,7 +43,7 @@ func TestMaxOfThree(t *testing.T) {
 
 		if got != test.want {
 			t.Errorf(
-				"maxOfThree(%d) = %d, want %d",
+				"maxOfThree(%.2f) = %.2f, want %.2f",
 				test.nums,
 				got,
 				test.want,
