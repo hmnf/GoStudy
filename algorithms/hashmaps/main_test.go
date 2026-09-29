@@ -25,7 +25,7 @@ func TestIsAnagram(t *testing.T) {
 			t:    "ток",
 			want: true,
 		}, {
-			name: "-1 in count",
+			name: "different lengths",
 			s:    "ab",
 			t:    "abc",
 			want: false,
@@ -34,6 +34,16 @@ func TestIsAnagram(t *testing.T) {
 			s:    "",
 			t:    "",
 			want: true,
+		}, {
+			name: "different character counts",
+			s:    "aacc",
+			t:    "ccac",
+			want: false,
+		}, {
+			name: "first string empty",
+			s:    "",
+			t:    "a",
+			want: false,
 		},
 	}
 

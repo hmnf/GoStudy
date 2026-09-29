@@ -21,15 +21,13 @@ func frequency(nums []int) map[int]int {
 
 func unique(nums []int) []int {
 	set := make(map[int]struct{})
-
-	for _, num := range nums {
-		set[num] = struct{}{}
-	}
-
 	var uniq []int
 
-	for v := range set {
-		uniq = append(uniq, v)
+	for _, num := range nums {
+		if _, exists := set[num]; !exists {
+			set[num] = struct{}{}
+			uniq = append(uniq, num)
+		}
 	}
 
 	return uniq
