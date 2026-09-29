@@ -13,19 +13,19 @@ internships and improving my programming skills.
 ## Learning roadmap
 
 ### Go fundamentals
-- [ ] Variables and data types
-- [ ] Loops and conditions
-- [ ] Functions
-- [ ] Pointers
-- [ ] Slices and maps
+- [X] Variables and data types
+- [X] Loops and conditions
+- [X] Functions
+- [X] Pointers
+- [X] Slices and maps
 - [ ] Structs and interfaces
 - [ ] Error handling
 - [ ] Goroutines and channels
 
 ### Algorithms
-- [ ] Arrays
-- [ ] Strings
-- [ ] Hash maps
+- [X] Arrays
+- [X] Strings
+- [X] Hash maps
 - [ ] Sorting
 - [ ] Binary search
 - [ ] Stacks and queues
