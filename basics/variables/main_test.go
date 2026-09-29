@@ -104,12 +104,15 @@ func TestCalc(t *testing.T) {
 				test.operator,
 			)
 
-			if test.wantErr && err == nil {
-				t.Errorf("expecred error, got nil")
+			if test.wantErr {
+				if err == nil {
+					t.Errorf("expected error, got nil")
+				}
 				return
+
 			}
 
-			if !test.wantErr && err != nil {
+			if err != nil {
 				t.Errorf("unexpected error: %v", err)
 				return
 			}
