@@ -20,36 +20,54 @@ func main() {
 
 	functions := map[string]func(){
 		"calc": func() {
-			result, err := calc()
+			var num1, num2 float64
+			var operator string
+
+			fmt.Print("Enter two numbers: ")
+			if _, err := fmt.Scan(&num1, &num2); err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+
+			fmt.Print("Enter operator (+,-,*,/): ")
+			if _, err := fmt.Scan(&operator); err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+
+			result, err := calc(num1, num2, operator)
 			if err != nil {
 				fmt.Println("Error:", err)
 				return
 			}
-			fmt.Println("Result:", result)
+			fmt.Printf("Result: %.2f\n", result)
 		},
 		"sumDigits": func() {
-			result, err := sumDigits()
-			if err != nil {
+			var num int
+			fmt.Print("Enter a number: ")
+			if _, err := fmt.Scan(&num); err != nil {
 				fmt.Println("Error:", err)
 				return
 			}
-			fmt.Println("Result:", result)
+			fmt.Println("Result:", sumDigits(num))
 		},
 		"isPalindrome": func() {
-			result, err := isPalindrome()
-			if err != nil {
+			var num int
+			fmt.Print("Enter a number: ")
+			if _, err := fmt.Scan(&num); err != nil {
 				fmt.Println("Error:", err)
 				return
 			}
-			fmt.Println("Result:", result)
+			fmt.Println("Result:", isPalindrome(num))
 		},
 		"maxOfThree": func() {
-			result, err := maxOfThree()
-			if err != nil {
+			var num1, num2, num3 float64
+			fmt.Print("Enter three numbers: ")
+			if _, err := fmt.Scan(&num1, &num2, &num3); err != nil {
 				fmt.Println("Error:", err)
 				return
 			}
-			fmt.Println("Result:", result)
+			fmt.Println("Result:", maxOfThree(num1, num2, num3))
 		},
 	}
 
@@ -62,22 +80,7 @@ func main() {
 	f()
 }
 
-func calc() (float64, error) {
-	var num1, num2 float64
-	var operator string
-
-	fmt.Print("Enter two numbers:")
-	_, err := fmt.Scan(&num1, &num2)
-	if err != nil {
-		return 0, err
-	}
-
-	fmt.Print("Enter operator (+,-,*,/): ")
-	_, err = fmt.Scan(&operator)
-	if err != nil {
-		return 0, err
-	}
-
+func calc(num1, num2 float64, operator string) (float64, error) {
 	switch operator {
 	case "+":
 		return num1 + num2, nil
@@ -87,7 +90,6 @@ func calc() (float64, error) {
 		return num1 * num2, nil
 	case "/":
 		if num2 == 0 {
-			fmt.Println("Division by zero is not allowed")
 			return 0, fmt.Errorf("division by zero")
 		}
 
@@ -97,14 +99,7 @@ func calc() (float64, error) {
 	}
 }
 
-func sumDigits() (int, error) {
-	var num int
-	fmt.Print("Enter a number: ")
-	_, err := fmt.Scan(&num)
-	if err != nil {
-		return 0, err
-	}
-
+func sumDigits(num int) int {
 	var sum int
 
 	for num > 0 {
@@ -112,31 +107,23 @@ func sumDigits() (int, error) {
 		num /= 10
 	}
 
-	return sum, nil
+	return sum
 }
 
-func isPalindrome() (bool, error) {
-	var num int
-
-	fmt.Print("Enter a number: ")
-	_, err := fmt.Scan(&num)
-	if err != nil {
-		return false, err
-	}
-
+func isPalindrome(num int) bool {
 	if num < 0 {
-		return false, nil
+		return false
 	}
 
 	l := numLen(num)
 
 	for i := 0; i < l/2; i++ {
 		if num/int(math.Pow(10, float64(i)))%10 != num/int(math.Pow(10, float64(l-i-1)))%10 {
-			return false, nil
+			return false
 		}
 	}
 
-	return true, nil
+	return true
 }
 
 func numLen(num int) int {
@@ -153,16 +140,7 @@ func numLen(num int) int {
 	return l
 }
 
-func maxOfThree() (float64, error) {
-	var num1, num2, num3 float64
-
-	fmt.Print("Enter three numbers: ")
-
-	_, err := fmt.Scan(&num1, &num2, &num3)
-	if err != nil {
-		return 0, err
-	}
-
+func maxOfThree(num1, num2, num3 float64) float64 {
 	m := num1
 
 	if num2 > m {
@@ -172,7 +150,7 @@ func maxOfThree() (float64, error) {
 		m = num3
 	}
 
-	return m, nil
+	return m
 }
 
 /* //////////// Structs //////////////
