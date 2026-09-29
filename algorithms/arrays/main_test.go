@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func testSum(t *testing.T) {
+func TestSum(t *testing.T) {
 	tests := []struct {
 		nums []int
 		want int
@@ -24,7 +24,7 @@ func testSum(t *testing.T) {
 	}
 }
 
-func testMax(t *testing.T) {
+func TestMax(t *testing.T) {
 	tests := []struct {
 		nums []int
 		want int
@@ -46,7 +46,7 @@ func testMax(t *testing.T) {
 	}
 }
 
-func testContains(t *testing.T) {
+func TestContains(t *testing.T) {
 	tests := []struct {
 		nums   []int
 		target int
@@ -69,7 +69,7 @@ func testContains(t *testing.T) {
 	}
 }
 
-func testOnlyEven(t *testing.T) {
+func TestOnlyEven(t *testing.T) {
 	tests := []struct {
 		nums []int
 		want []int
@@ -92,7 +92,7 @@ func testOnlyEven(t *testing.T) {
 	}
 }
 
-func testReverse(t *testing.T) {
+func TestReverse(t *testing.T) {
 	tests := []struct {
 		nums []int
 		want []int
