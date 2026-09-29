@@ -27,7 +27,7 @@ func TestWithdraw(t *testing.T) {
 	ok := account.Withdraw(300)
 
 	if !ok {
-		t.Errorf(
+		t.Fatalf(
 			"Withdraw returned false, want true",
 		)
 	}
@@ -52,7 +52,7 @@ func TestWithdrawNotEnoughMoney(t *testing.T) {
 	ok := account.Withdraw(1000)
 
 	if ok {
-		t.Errorf(
+		t.Fatalf(
 			"Withdraw returned true, want false",
 		)
 	}

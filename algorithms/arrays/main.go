@@ -4,12 +4,7 @@ import "fmt"
 
 func main() {
 	fmt.Println(
-		sum([]int{1, 2, 3, 4}),
-		max([]int{4, 8, 2, 15, 3}),
-		contains([]int{4, 7, 10}, 7),
-		contains([]int{4, 7, 10}, 20),
-		onlyEven([]int{1, 2, 3, 4, 5, 6}),
-		reverse([]int{1, 2, 3, 4, 5}),
+		MergeSortedArrays([]int{1, 2, 3}, 3, []int{2, 5, 6}, 3),
 	)
 }
 

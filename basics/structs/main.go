@@ -24,7 +24,7 @@ func (b *BankAccount) Deposit(amount float64) {
 }
 
 func (b *BankAccount) Withdraw(amount float64) bool {
-	if b.balance-amount < 0 || amount < 0 {
+	if amount <= 0 || amount > b.balance {
 		return false
 	}
 	b.balance -= amount
@@ -34,31 +34,3 @@ func (b *BankAccount) Withdraw(amount float64) bool {
 func (b BankAccount) Balance() float64 {
 	return b.balance
 }
-
-/*
-type User struct {
-	Name string
-	Age  int
-}
-
-func main() {
-	user := User{
-		Name: "Ars",
-		Age:  17,
-	}
-	user.Birthday()
-	fmt.Println(user.IsAdult())
-}
-
-func (u User) GetName() string {
-	return u.Name
-}
-
-func (u User) IsAdult() bool {
-	return u.Age >= 18
-}
-
-func (u *User) Birthday() {
-	u.Age++
-}
-*/
