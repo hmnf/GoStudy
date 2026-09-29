@@ -12,20 +12,20 @@ func main() {
 }
 
 func isAnagram(s string, t string) bool {
-	res := make(map[rune]int)
+	count := make(map[rune]int)
 
 	for _, l := range s {
-		res[l]++
+		count[l]++
 	}
 
 	for _, l := range t {
-		res[l]--
-		if res[l] == 0 {
-			delete(res, l)
+		count[l]--
+		if count[l] == 0 {
+			delete(count, l)
 		}
 	}
 
-	if len(res) == 0 {
+	if len(count) == 0 {
 		return true
 	}
 
