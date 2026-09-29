@@ -23,7 +23,7 @@ func sum(nums []int) int {
 }
 
 func max(nums []int) int {
-	mx := 0
+	mx := nums[0]
 	for _, num := range nums {
 		if num > mx {
 			mx = num
