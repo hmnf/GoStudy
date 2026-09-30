@@ -15,6 +15,8 @@ func ValidPalindrome(s string) bool {
 			b = append(b, r+32)
 		} else if r >= 97 && r <= 122 {
 			b = append(b, r)
+		} else if r >= 48 && r <= 57 {
+			b = append(b, r)
 		}
 	}
 
