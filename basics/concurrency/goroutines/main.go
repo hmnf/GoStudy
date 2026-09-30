@@ -2,31 +2,26 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 func main() {
-	fast := make(chan string)
-	slow := make(chan string)
+	count := 0
+	var wg sync.WaitGroup
 
-	go msg1(fast)
-	go msg2(slow)
+	for i := 0; i < 100; i++ {
 
-	select {
-	case v := <-fast:
-		fmt.Println(v)
-
-	case v := <-slow:
-		fmt.Println(v)
-
+		wg.Add(1)
+		go func(wg *sync.WaitGroup) {
+			var mu sync.Mutex
+			wg.Done()
+			mu.Lock()
+			count++
+			defer mu.Unlock()
+		}(&wg)
 	}
-}
 
-func msg1(fast chan string) {
-	fast <- "fast finished"
-}
+	wg.Wait()
 
-func msg2(slow chan string) {
-	time.Sleep(500 * time.Millisecond)
-	slow <- "slow finished"
+	fmt.Println(count)
 }
