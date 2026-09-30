@@ -3,16 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	nums1 := make([]int, 6)
-	nums2 := make([]int, 3)
-	nums1[0] = 4
-	nums1[1] = 5
-	nums1[2] = 6
-	nums2[0] = 1
-	nums2[1] = 2
-	nums2[2] = 3
 	fmt.Println(
-		MergeSortedArrays(nums1, 3, nums2, 3),
+		SquaresOfASortedArrays([]int{-4, -1, 0, 3, 10}),
 	)
 }
 
@@ -65,6 +57,20 @@ func reverse(nums []int) []int {
 	}
 
 	return rs
+}
+
+func arrEqual(got, want []int) bool {
+	if len(got) != len(want) {
+		return false
+	}
+
+	for i := 0; i < len(got); i++ {
+		if got[i] != want[i] {
+			return false
+		}
+	}
+
+	return true
 }
 
 /*////////// Arrays ////////////
