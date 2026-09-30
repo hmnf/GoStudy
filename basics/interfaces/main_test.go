@@ -7,7 +7,7 @@ func TestSpeaker(t *testing.T) {
 		Name: "hmnf",
 	}
 
-	got := p.Speak()
+	got := GetSpeech(p)
 
 	want := "My name is hmnf"
 
@@ -21,7 +21,7 @@ func TestSpeaker(t *testing.T) {
 
 	d := Dog{}
 
-	got = d.Speak()
+	got = GetSpeech(d)
 	want = "woof woof"
 
 	if got != want {

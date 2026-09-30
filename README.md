@@ -18,7 +18,8 @@ internships and improving my programming skills.
 - [X] Functions
 - [X] Pointers
 - [X] Slices and maps
-- [ ] Structs and interfaces
+- [X] Structs
+- [X] Interfaces
 - [ ] Error handling
 - [ ] Goroutines and channels
 
@@ -26,7 +27,7 @@ internships and improving my programming skills.
 - [X] Arrays
 - [X] Strings
 - [X] Hash maps
-- [ ] Sorting
+- [X] Sorting
 - [ ] Binary search
 - [ ] Stacks and queues
 - [ ] Trees and graphs

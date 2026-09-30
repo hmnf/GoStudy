@@ -31,6 +31,6 @@ func main() {
 
 	d := Dog{}
 
-	fmt.Println(p.Speak())
-	fmt.Println(d.Speak())
+	fmt.Println(GetSpeech(p))
+	fmt.Println(GetSpeech(d))
 }

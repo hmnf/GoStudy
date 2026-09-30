@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"slices"
+	"testing"
+)
 
 func TestMergeSortedArrays(t *testing.T) {
 	tests := []struct {
@@ -49,7 +52,7 @@ func TestMergeSortedArrays(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := MergeSortedArrays(test.nums1, test.m, test.nums2, test.n)
 
-			if !arrEqual(got, test.want) {
+			if !slices.Equal(got, test.want) {
 				t.Errorf(
 					"MergeSortedArrays(%v, %v, %v, %v) = %v, want %v",
 					test.nums1,

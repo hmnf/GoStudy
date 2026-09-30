@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"slices"
+	"testing"
+)
 
 func TestSquaresOfASortedArray(t *testing.T) {
 	tests := []struct {
@@ -39,7 +42,7 @@ func TestSquaresOfASortedArray(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := SquaresOfASortedArrays(test.nums)
 
-			if !arrEqual(got, test.want) {
+			if !slices.Equal(got, test.want) {
 				t.Errorf(
 					"SquaresOfASortedArrays(%v) = %v, want %v",
 					test.nums,

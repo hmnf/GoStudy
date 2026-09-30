@@ -1,11 +1,6 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println(
-		SquaresOfASortedArrays([]int{-4, -1, 0, 3, 10}),
-	)
 }
 
 func sum(nums []int) int {
