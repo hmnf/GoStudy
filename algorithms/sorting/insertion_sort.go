@@ -1,11 +1,12 @@
 package main
 
 func insertionSort(nums []int) {
-	for i := 0; i < len(nums); i++ {
+	for i := 1; i < len(nums); i++ {
+		key := nums[i]
 		for j := i - 1; j >= 0; j-- {
-			if nums[i] < nums[j] {
-				nums[i], nums[j] = nums[j], nums[i]
-				i--
+			if key < nums[j] {
+				nums[j+1] = nums[j]
+				nums[j] = key
 			}
 		}
 	}
