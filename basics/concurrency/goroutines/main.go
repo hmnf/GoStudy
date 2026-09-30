@@ -12,15 +12,23 @@ func main() {
 		1*time.Second,
 	)
 
-	go worker(ctx)
+	msg := make(chan string)
+
+	go worker(msg)
+	select {
+	case v := <-msg:
+		fmt.Println(v)
+	case <-ctx.Done():
+		fmt.Println("working canceled")
+	}
 
 	defer cancel()
 }
 
-func worker(ctx context.Context) {
-	defer ctx.Done()
-	for i := 0; i < 10000000000000; i++ {
-		fmt.Println("Working...")
+func worker(msg chan string) {
+	i := 0
+	for i < 1 {
+		msg <- "Working..."
 		time.Sleep(300 * time.Millisecond)
 	}
 }
