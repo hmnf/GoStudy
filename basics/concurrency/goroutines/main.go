@@ -2,19 +2,14 @@ package main
 
 import "fmt"
 
-func square(n int, ch chan int) {
-	ch <- n * n
-}
-
 func main() {
-	ch := make(chan int)
-	go square(2, ch)
-	go square(3, ch)
-	go square(4, ch)
+	ch := make(chan int, 3)
 
-	for i := 0; i < 3; i++ {
+	ch <- 10
+	ch <- 20
+	ch <- 30
 
-		v := <-ch
-		fmt.Println(v)
-	}
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
 }
