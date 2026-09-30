@@ -33,7 +33,7 @@ func TestInsertionSort(t *testing.T) {
 		{
 			name: "nums < 0",
 			nums: []int{-2, -8, -1, 2, 3, 6, 0},
-			want: []int{-8, -1, -1, 0, 2, 3, 6},
+			want: []int{-8, -2, -1, 0, 2, 3, 6},
 		},
 	}
 
