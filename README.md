@@ -21,7 +21,7 @@ internships and improving my programming skills.
 - [X] Structs
 - [X] Interfaces
 - [ ] Error handling
-- [ ] Goroutines and channels
+- [X] Goroutines and channels
 
 ### Algorithms
 - [X] Arrays
