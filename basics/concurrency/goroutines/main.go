@@ -2,16 +2,18 @@ package main
 
 import "fmt"
 
-func sum(a, b int, ch chan int) {
-	ch <- a + b
+func square(n int, ch chan int) {
+	ch <- n * n
 }
 
 func main() {
 	ch := make(chan int)
 
-	go sum(10, 20, ch)
-
-	v := <-ch
-
-	fmt.Println(v)
+	for i := 0; i < 3; i++ {
+		go square(2, ch)
+		go square(3, ch)
+		go square(4, ch)
+		v := <-ch
+		fmt.Println(v)
+	}
 }
