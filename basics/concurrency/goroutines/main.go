@@ -1,18 +1,32 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	ch := make(chan int)
-	go generateEven(10, ch)
-	for v := range ch {
+	fast := make(chan string)
+	slow := make(chan string)
+
+	go msg1(fast)
+	go msg2(slow)
+
+	select {
+	case v := <-fast:
 		fmt.Println(v)
+
+	case v := <-slow:
+		fmt.Println(v)
+
 	}
 }
 
-func generateEven(n int, ch chan int) {
-	for i := 2; i <= n; i += 2 {
-		ch <- i
-	}
-	close(ch)
+func msg1(fast chan string) {
+	fast <- "fast finished"
+}
+
+func msg2(slow chan string) {
+	slow <- "slow finished"
+	time.Sleep(500 * time.Millisecond)
 }
