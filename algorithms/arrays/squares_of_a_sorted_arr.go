@@ -7,7 +7,7 @@ func SquaresOfASortedArrays(nums []int) []int {
 
 	res := make([]int, len(nums))
 
-	for right > left {
+	for right >= left {
 		if nums[left]*nums[left] > nums[right]*nums[right] {
 			res[pointer] = nums[left] * nums[left]
 			left++
