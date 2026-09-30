@@ -15,10 +15,9 @@ func main() {
 	defer cancel()
 
 	var wg sync.WaitGroup
-	for {
-		wg.Add(1)
-		go worker(ctx, &wg)
-	}
+	wg.Add(1)
+	go worker(ctx, &wg)
+	wg.Wait()
 }
 
 func worker(ctx context.Context, wg *sync.WaitGroup) {
@@ -28,8 +27,8 @@ func worker(ctx context.Context, wg *sync.WaitGroup) {
 		time.Sleep(300 * time.Millisecond)
 		select {
 		case <-ctx.Done():
-
 			fmt.Println("working canceled")
+			return
 		default:
 			fmt.Println("Working...")
 		}
