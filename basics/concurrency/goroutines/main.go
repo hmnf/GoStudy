@@ -27,6 +27,6 @@ func msg1(fast chan string) {
 }
 
 func msg2(slow chan string) {
-	slow <- "slow finished"
 	time.Sleep(500 * time.Millisecond)
+	slow <- "slow finished"
 }
