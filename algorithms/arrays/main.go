@@ -3,8 +3,16 @@ package main
 import "fmt"
 
 func main() {
+	nums1 := make([]int, 6)
+	nums2 := make([]int, 3)
+	nums1[0] = 1
+	nums1[1] = 2
+	nums1[2] = 3
+	nums2[0] = 2
+	nums2[1] = 5
+	nums2[2] = 6
 	fmt.Println(
-		MergeSortedArrays([]int{1, 2, 3}, 3, []int{2, 5, 6}, 3),
+		MergeSortedArrays(nums1, 3, nums2, 3),
 	)
 }
 
