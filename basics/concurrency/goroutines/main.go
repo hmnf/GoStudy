@@ -7,25 +7,22 @@ import (
 )
 
 func main() {
-	msg := make(chan string)
-
-	go worker(msg)
+	go worker()
 }
 
-func worker(msg chan string) {
+func worker() {
 	ctx, cancel := context.WithTimeout(
 		context.Background(),
 		1*time.Second,
 	)
 	defer cancel()
 	for {
-		msg <- "Working..."
 		time.Sleep(300 * time.Millisecond)
 		select {
-		case v := <-msg:
-			fmt.Println(v)
 		case <-ctx.Done():
 			fmt.Println("working canceled")
+		default:
+			fmt.Println("Working...")
 		}
 	}
 }
