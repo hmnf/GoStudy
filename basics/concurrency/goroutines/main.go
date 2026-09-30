@@ -1,27 +1,26 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"sync"
+	"time"
 )
 
 func main() {
-	count := 0
-	var wg sync.WaitGroup
-	var mu sync.Mutex
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		1*time.Second,
+	)
 
-	for i := 0; i < 100; i++ {
+	go worker(ctx)
 
-		wg.Add(1)
-		go func(wg *sync.WaitGroup, mu *sync.Mutex) {
-			defer wg.Done()
-			mu.Lock()
-			count++
-			defer mu.Unlock()
-		}(&wg, &mu)
+	defer cancel()
+}
+
+func worker(ctx context.Context) {
+	defer ctx.Done()
+	for i := 0; i < 10000000000000; i++ {
+		fmt.Println("Working...")
+		time.Sleep(300 * time.Millisecond)
 	}
-
-	wg.Wait()
-
-	fmt.Println(count)
 }
