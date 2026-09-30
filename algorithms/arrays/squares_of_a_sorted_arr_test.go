@@ -23,6 +23,16 @@ func TestSquaresOfASortedArray(t *testing.T) {
 			nums: []int{},
 			want: []int{},
 		},
+		{
+			name: "one element",
+			nums: []int{-5},
+			want: []int{25},
+		},
+		{
+			name: "only negative",
+			nums: []int{-5, -3, -1},
+			want: []int{1, 9, 25},
+		},
 	}
 
 	for _, test := range tests {
