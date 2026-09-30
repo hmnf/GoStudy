@@ -7,6 +7,8 @@ func insertionSort(nums []int) {
 			if key < nums[j] {
 				nums[j+1] = nums[j]
 				nums[j] = key
+			} else {
+				break
 			}
 		}
 	}
