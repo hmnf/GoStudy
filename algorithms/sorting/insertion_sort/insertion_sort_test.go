@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"testing"
 )
 
@@ -41,7 +42,7 @@ func TestInsertionSort(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			insertionSort(test.nums)
 
-			if !arrEqual(test.nums, test.want) {
+			if !slices.Equal(test.nums, test.want) {
 				t.Errorf(
 					"insertionSort() = %v, want %v",
 					test.nums,
