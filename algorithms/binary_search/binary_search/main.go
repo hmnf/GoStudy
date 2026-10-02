@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 func main() {
@@ -13,25 +12,17 @@ func main() {
 }
 
 func Search(nums []int, target int) int {
-	if len(nums) == 1 {
-		if nums[0] == target {
-			return 0
-		} else {
-			return -1
-		}
-	}
 	left := 0
 	right := len(nums) - 1
 
 	for right >= left {
-		mid := int(math.Floor(float64(right+left) / 2))
-		fmt.Println(mid)
+		mid := (right + left) / 2
 		if nums[mid] == target {
 			return mid
 		} else if nums[mid] > target {
-			right = mid
+			right = mid - 1
 		} else {
-			left = mid
+			left = mid + 1
 		}
 	}
 
