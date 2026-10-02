@@ -32,7 +32,7 @@ func TestDivide(t *testing.T) {
 			10,
 			0,
 			0,
-			errors.New("divizion by zero"),
+			ErrDivizionByZero,
 		},
 	}
 
