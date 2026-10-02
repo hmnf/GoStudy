@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -13,9 +13,9 @@ func main() {
 }
 
 func handler1(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Go HTTP server")
+	io.WriteString(w, "go http server")
 }
 
 func handler2(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Hello!")
+	io.WriteString(w, "hello")
 }
