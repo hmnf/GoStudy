@@ -14,14 +14,14 @@ func (e ValidationError) Error() string {
 }
 
 var (
-	ErrDivizionByZero = errors.New("Divizion by zero")
+	ErrDivisionByZero = errors.New("Divizion by zero")
 	ErrUserNotFound   = errors.New("user not found")
 )
 
 func main() {
 	res, err := Divide(10, 2)
 
-	if errors.Is(err, ErrDivizionByZero) {
+	if errors.Is(err, ErrDivisionByZero) {
 		fmt.Println(err)
 		return
 	}
@@ -31,7 +31,7 @@ func main() {
 
 func Divide(a, b float64) (float64, error) {
 	if b == 0 {
-		return 0, ErrDivizionByZero
+		return 0, ErrDivisionByZero
 	}
 
 	return a / b, nil
