@@ -48,13 +48,13 @@ func GetUserName(id int) (string, error) {
 	}
 }
 
-func ValidateUser(name, email string) ValidationError {
+func ValidateUser(name, email string) error {
 	if name == "" {
-		return ValidationError{Field: name}
+		return ValidationError{Field: "name"}
 	}
 	if email == "" {
-		return ValidationError{Field: email}
+		return ValidationError{Field: "email"}
 	}
 
-	return ValidationError{}
+	return nil
 }
