@@ -104,7 +104,7 @@ func TestGetUserName(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got, err := GetUserName(test.id)
 
-			if err != test.wantErr {
+			if errors.Is(err, test.wantErr) {
 				t.Fatalf(
 					"wanted error %v != got error %v",
 					test.wantErr,
