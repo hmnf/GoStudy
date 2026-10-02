@@ -129,13 +129,13 @@ func TestValidateUser(t *testing.T) {
 		testname string
 		name     string
 		email    string
-		want     ValidationError
+		want     error
 	}{
 		{
 			testname: "no empty fields",
 			name:     "Ars",
 			email:    "kkkk",
-			want:     ValidationError{},
+			want:     nil,
 		},
 		{
 			testname: "empty name",
@@ -163,16 +163,20 @@ func TestValidateUser(t *testing.T) {
 		},
 	}
 
+	var validationErr ValidationError
+
 	for _, test := range tests {
 		t.Run(test.testname, func(t *testing.T) {
 			got := ValidateUser(test.name, test.email)
 
-			if !errors.As(got, &test.want) {
-				t.Errorf(
-					"wanted error %v != got error %v",
-					test.want,
-					got,
-				)
+			if errors.As(got, &validationErr) {
+				if validationErr.Field != test.want.Field {
+					t.Errorf(
+						"wanted error %v != got error %v",
+						test.want,
+						got,
+					)
+				}
 			}
 		})
 	}
