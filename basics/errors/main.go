@@ -5,6 +5,14 @@ import (
 	"fmt"
 )
 
+type ValidationError struct {
+	Field string
+}
+
+func (e ValidationError) Error() string {
+	return "validation error: " + e.Field
+}
+
 var (
 	ErrDivizionByZero = errors.New("Divizion by zero")
 	ErrUserNotFound   = errors.New("user not found")
@@ -38,4 +46,15 @@ func GetUserName(id int) (string, error) {
 	default:
 		return "", fmt.Errorf("User with id %d: %w", id, ErrUserNotFound)
 	}
+}
+
+func ValidateUser(name, email string) ValidationError {
+	if name == "" {
+		return ValidationError{Field: name}
+	}
+	if email == "" {
+		return ValidationError{Field: email}
+	}
+
+	return ValidationError{}
 }

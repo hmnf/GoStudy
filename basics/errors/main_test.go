@@ -104,7 +104,7 @@ func TestGetUserName(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got, err := GetUserName(test.id)
 
-			if errors.Is(err, test.wantErr) {
+			if !errors.Is(err, test.wantErr) {
 				t.Fatalf(
 					"wanted error %v != got error %v",
 					test.wantErr,
@@ -118,6 +118,60 @@ func TestGetUserName(t *testing.T) {
 					test.id,
 					got,
 					test.want,
+				)
+			}
+		})
+	}
+}
+
+func TestValidateUser(t *testing.T) {
+	tests := []struct {
+		testname string
+		name     string
+		email    string
+		want     ValidationError
+	}{
+		{
+			testname: "no empty fields",
+			name:     "Ars",
+			email:    "kkkk",
+			want:     ValidationError{},
+		},
+		{
+			testname: "empty name",
+			name:     "",
+			email:    "kkkk",
+			want: ValidationError{
+				Field: "name",
+			},
+		},
+		{
+			testname: "empty email",
+			name:     "Ars",
+			email:    "",
+			want: ValidationError{
+				Field: "email",
+			},
+		},
+		{
+			testname: "all empty ",
+			name:     "",
+			email:    "",
+			want: ValidationError{
+				Field: "name",
+			},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.testname, func(t *testing.T) {
+			got := ValidateUser(test.name, test.email)
+
+			if !errors.As(got, &test.want) {
+				t.Errorf(
+					"wanted error %v != got error %v",
+					test.want,
+					got,
 				)
 			}
 		})
