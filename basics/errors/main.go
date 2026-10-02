@@ -5,7 +5,10 @@ import (
 	"fmt"
 )
 
-var ErrDivizionByZero = errors.New("divizion by zero")
+var (
+	ErrDivizionByZero = errors.New("Divizion by zero")
+	ErrUserNotFound   = errors.New("user not found")
+)
 
 func main() {
 	res, err := Divide(10, 2)
@@ -24,4 +27,15 @@ func Divide(a, b float64) (float64, error) {
 	}
 
 	return a / b, nil
+}
+
+func GetUserName(id int) (string, error) {
+	switch id {
+	case 1:
+		return "Arseniy", nil
+	case 2:
+		return "Ivan", nil
+	default:
+		return "", fmt.Errorf("User with id %d: %w", id, ErrUserNotFound)
+	}
 }

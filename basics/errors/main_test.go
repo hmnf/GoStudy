@@ -34,6 +34,13 @@ func TestDivide(t *testing.T) {
 			0,
 			ErrDivizionByZero,
 		},
+		{
+			"4",
+			0,
+			5,
+			0,
+			nil,
+		},
 	}
 
 	for _, test := range tests {
@@ -52,6 +59,63 @@ func TestDivide(t *testing.T) {
 					"Divide(%.2f,%.2f) = %.2f, want %.2f",
 					test.a,
 					test.b,
+					got,
+					test.want,
+				)
+			}
+		})
+	}
+}
+
+func TestGetUserName(t *testing.T) {
+	tests := []struct {
+		name    string
+		id      int
+		want    string
+		wantErr error
+	}{
+		{
+			name:    "1",
+			id:      1,
+			want:    "Arseniy",
+			wantErr: nil,
+		},
+		{
+			name:    "2",
+			id:      2,
+			want:    "Ivan",
+			wantErr: nil,
+		},
+		{
+			name:    "3",
+			id:      10,
+			want:    "",
+			wantErr: ErrUserNotFound,
+		},
+		{
+			name:    "4",
+			id:      -1,
+			want:    "",
+			wantErr: ErrUserNotFound,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got, err := GetUserName(test.id)
+
+			if err != test.wantErr {
+				t.Fatalf(
+					"wanted error %v != got error %v",
+					test.wantErr,
+					err,
+				)
+			}
+
+			if got != test.want {
+				t.Errorf(
+					"GetUserName(%d) = %v, want %v",
+					test.id,
 					got,
 					test.want,
 				)
