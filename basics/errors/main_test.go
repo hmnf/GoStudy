@@ -126,40 +126,39 @@ func TestGetUserName(t *testing.T) {
 
 func TestValidateUser(t *testing.T) {
 	tests := []struct {
-		testname string
-		name     string
-		email    string
-		want     error
+		testname  string
+		name      string
+		email     string
+		wantErr   bool
+		wantField string
 	}{
 		{
-			testname: "no empty fields",
-			name:     "Ars",
-			email:    "kkkk",
-			want:     nil,
+			testname:  "no empty fields",
+			name:      "Ars",
+			email:     "kkkk",
+			wantErr:   false,
+			wantField: "",
 		},
 		{
-			testname: "empty name",
-			name:     "",
-			email:    "kkkk",
-			want: ValidationError{
-				Field: "name",
-			},
+			testname:  "empty name",
+			name:      "",
+			email:     "kkkk",
+			wantErr:   true,
+			wantField: "name",
 		},
 		{
-			testname: "empty email",
-			name:     "Ars",
-			email:    "",
-			want: ValidationError{
-				Field: "email",
-			},
+			testname:  "empty email",
+			name:      "Ars",
+			email:     "",
+			wantErr:   true,
+			wantField: "email",
 		},
 		{
-			testname: "all empty ",
-			name:     "",
-			email:    "",
-			want: ValidationError{
-				Field: "name",
-			},
+			testname:  "all empty ",
+			name:      "",
+			email:     "",
+			wantErr:   true,
+			wantField: "name",
 		},
 	}
 
@@ -170,11 +169,14 @@ func TestValidateUser(t *testing.T) {
 			got := ValidateUser(test.name, test.email)
 
 			if errors.As(got, &validationErr) {
-				if validationErr.Field != test.want.Field {
-					t.Errorf(
-						"wanted error %v != got error %v",
-						test.want,
-						got,
+				if !test.wantErr {
+					t.Fatalf(
+						"no error wanted",
+					)
+				}
+				if validationErr.Field != test.wantField {
+					t.Fatalf(
+						"fields not matching",
 					)
 				}
 			}
