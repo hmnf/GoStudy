@@ -162,23 +162,41 @@ func TestValidateUser(t *testing.T) {
 		},
 	}
 
-	var validationErr ValidationError
-
 	for _, test := range tests {
 		t.Run(test.testname, func(t *testing.T) {
 			got := ValidateUser(test.name, test.email)
 
-			if errors.As(got, &validationErr) {
-				if !test.wantErr {
+			if !test.wantErr {
+				if got != nil {
 					t.Fatalf(
-						"no error wanted",
+						"unexpected error: %v",
+						got,
 					)
 				}
-				if validationErr.Field != test.wantField {
-					t.Fatalf(
-						"fields not matching",
-					)
-				}
+				return
+			}
+
+			if got == nil {
+				t.Fatalf(
+					"expected error, got nil",
+				)
+			}
+
+			var validationErr ValidationError
+
+			if !errors.As(got, &validationErr) {
+				t.Fatalf(
+					"expected ValidationError, got %v",
+					got,
+				)
+			}
+
+			if validationErr.Field != test.wantField {
+				t.Fatalf(
+					"expected field %v, got %v",
+					test.wantField,
+					validationErr.Field,
+				)
 			}
 		})
 	}
