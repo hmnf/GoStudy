@@ -43,6 +43,16 @@ func TestIsValid(t *testing.T) {
 			s:    "",
 			want: true,
 		},
+		{
+			name: "8",
+			s:    "(]",
+			want: false,
+		},
+		{
+			name: "9",
+			s:    ")",
+			want: false,
+		},
 	}
 
 	for _, test := range tests {

@@ -12,6 +12,9 @@ func isValid(s string) bool {
 	r := []rune(s)
 	for i := 0; i < len(r); i++ {
 		if r[i] == ']' || r[i] == '}' || r[i] == ')' {
+			if len(stack) == 0 {
+				return false
+			}
 			if sk[r[stack[len(stack)-1]]] == r[i] {
 				stack = stack[:len(stack)-1]
 			} else {
