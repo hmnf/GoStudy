@@ -22,7 +22,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, "Error", 404)
+		http.Error(w, "Error", 400)
 		return
 	}
 
