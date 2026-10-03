@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -20,8 +21,9 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(w, "Error", 404)
+	}
 
-	fmt.Println("error: ", err)
-
-	fmt.Println("user: ", user.Name, "age ", user.Age, "created")
+	io.WriteString(w, fmt.Sprintf("User %v, age %v", user.Name, user.Age))
 }
