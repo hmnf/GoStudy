@@ -8,28 +8,19 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /hello", h1)
-	mux.HandleFunc("GET /hello?name=Ars", h2)
-	mux.HandleFunc("GET /hello?name=Alex", h3)
+	mux.HandleFunc("GET /hello", handler)
 	http.ListenAndServe(":8080", mux)
 }
 
-func h1(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("method: ", r.Method)
-	fmt.Println("path: ", r.URL)
-	io.WriteString(w, "Hello, stranger!")
-}
+func handler(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
 
-func h2(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("method: ", r.Method)
-	fmt.Println("path: ", r.URL)
-	fmt.Println("path: ", r.URL.Query().Get("name"))
-	io.WriteString(w, "Hello, Arseniy!")
-}
+	fmt.Println(r.Method)
+	fmt.Println(r.URL.Path)
 
-func h3(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("method: ", r.Method)
-	fmt.Println("path: ", r.URL)
-	fmt.Println("path: ", r.URL.Query().Get("name"))
-	io.WriteString(w, "Hello, Alex!")
+	if name == "" {
+		io.WriteString(w, "Hello, stranger!")
+	} else {
+		io.WriteString(w, fmt.Sprintf("Hello, %v!", name))
+	}
 }
