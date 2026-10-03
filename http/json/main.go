@@ -23,6 +23,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		http.Error(w, "Error", 404)
+		return
 	}
 
 	io.WriteString(w, fmt.Sprintf("User %v, age %v", user.Name, user.Age))
