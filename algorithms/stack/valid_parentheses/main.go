@@ -25,5 +25,9 @@ func isValid(s string) bool {
 		}
 	}
 
+	if len(stack) != 0 {
+		return false
+	}
+
 	return true
 }
