@@ -12,7 +12,7 @@ func (h NumsHeap) Len() int {
 }
 
 func (h NumsHeap) Less(i, j int) bool {
-	return h[i] > h[j]
+	return h[i] < h[j]
 }
 
 func (h NumsHeap) Swap(i, j int) {
@@ -43,12 +43,13 @@ func findKthLargest(nums []int, k int) int {
 	heap.Init(&nHeap)
 
 	for _, num := range nums {
-		heap.Push(&nHeap, num)
+		fmt.Println(nHeap)
+		if nHeap.Len() == k {
+			heap.Pop(&nHeap)
+			heap.Push(&nHeap, num)
+		} else {
+			heap.Push(&nHeap, num)
+		}
 	}
-
-	for k > 1 {
-		heap.Pop(&nHeap)
-	}
-
 	return heap.Pop(&nHeap).(int)
 }
