@@ -22,14 +22,14 @@ func TestTopKFrequent(t *testing.T) {
 			name: "2",
 			nums: []int{4, 4, 4, 6, 6, 7, 7, 7, 7, 8},
 			k:    2,
-			want: []int{7, 4},
+			want: []int{4, 7},
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := topKFrequent(test.nums, test.k)
-
+			slices.Sort(got)
 			if !slices.Equal(got, test.want) {
 				t.Errorf(
 					"topKFrequent(%v, %d) = %v, want %v",
