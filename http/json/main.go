@@ -26,5 +26,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	io.WriteString(w, fmt.Sprintf("User %v, age %v", user.Name, user.Age))
+	io.WriteString(w, fmt.Sprintf("User %v, age %v created", user.Name, user.Age))
 }

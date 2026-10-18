@@ -52,16 +52,10 @@ func main() {
 func mergeKSorted(arrays [][]int) []int {
 	var arrHeap ArrHeap
 	heap.Init(&arrHeap)
-	for i := 0; i < len(arrays); i++ {
-		for j := 0; j < len(arrays[i]); j++ {
-			heap.Push(&arrHeap, Item{
-				value: arrays[i][j],
-				x:     i,
-				y:     j,
-			})
-		}
-	}
 	var res []int
+
+	for i := 0; i < len(arrays); i++ {
+	}
 
 	for arrHeap.Len() > 0 {
 		res = append(res, heap.Pop(&arrHeap).(Item).value)
