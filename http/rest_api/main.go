@@ -12,7 +12,7 @@ type UserStore struct {
 	nextID int
 }
 type User struct {
-	ID   int    `json:"id"`
+	ID   int
 	Name string `json:"name"`
 	Age  int    `json:"age"`
 }
@@ -48,7 +48,8 @@ func main() {
 
 func (s *UserStore) getUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	json.NewEncoder(w).Encode(&s.users)
 }
 
@@ -61,11 +62,10 @@ func (s *UserStore) addUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-	s.users = append(s.users, User{
-		ID:   s.nextID,
-		Name: user.Name,
-		Age:  user.Age,
-	})
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	user.ID = s.nextID
+	s.users = append(s.users, user)
 	s.nextID++
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
