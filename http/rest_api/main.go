@@ -46,7 +46,35 @@ func main() {
 	mux.HandleFunc("POST /users", userStore.addUser)
 	mux.HandleFunc("GET /users/{id}", userStore.getUser)
 	mux.HandleFunc("DELETE /users/{id}", userStore.deleteUser)
+	mux.HandleFunc("PUT /users/{id}", userStore.updateUser)
 	http.ListenAndServe(":8080", mux)
+}
+
+func (s *UserStore) updateUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	var patchedUser User
+	err = json.NewDecoder(r.Body).Decode(&patchedUser)
+	if err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for key, user := range s.users {
+		if user.ID == id {
+			s.users[key].Name = patchedUser.Name
+			s.users[key].Age = patchedUser.Age
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(s.users[key])
+			return
+		}
+	}
+	http.Error(w, "Not found", http.StatusNotFound)
 }
 
 func (s *UserStore) deleteUser(w http.ResponseWriter, r *http.Request) {
