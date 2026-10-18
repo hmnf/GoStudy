@@ -13,11 +13,12 @@ type User struct {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /users", handler)
+	mux.HandleFunc("GET /users", handlerGet)
+	mux.HandleFunc("POST /users", handlerPost)
 	http.ListenAndServe(":8080", mux)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func handlerGet(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	users := []User{
 		{
@@ -37,4 +38,18 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	json.NewEncoder(w).Encode(users)
+}
+
+func handlerPost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var user User
+
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	user.ID = 4
+	http.StatusText(http.StatusCreated)
+	json.NewEncoder(w).Encode(user)
 }
