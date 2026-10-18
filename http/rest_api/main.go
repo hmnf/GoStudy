@@ -45,7 +45,27 @@ func main() {
 	mux.HandleFunc("GET /users", userStore.getUsers)
 	mux.HandleFunc("POST /users", userStore.addUser)
 	mux.HandleFunc("GET /users/{id}", userStore.getUser)
+	mux.HandleFunc("DELETE /users/{id}", userStore.deleteUser)
 	http.ListenAndServe(":8080", mux)
+}
+
+func (s *UserStore) deleteUser(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for key, user := range s.users {
+		if user.ID == id {
+			s.nextID = id
+			s.users = append(s.users[:key], s.users[key+1:]...)
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+	}
+	http.Error(w, "Not found", http.StatusNotFound)
 }
 
 func (s *UserStore) getUser(w http.ResponseWriter, r *http.Request) {
@@ -89,6 +109,11 @@ func (s *UserStore) addUser(w http.ResponseWriter, r *http.Request) {
 	user.ID = s.nextID
 	s.users = append(s.users, user)
 	s.nextID++
+	for _, user := range s.users {
+		if user.ID == s.nextID {
+			s.nextID++
+		}
+	}
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }
