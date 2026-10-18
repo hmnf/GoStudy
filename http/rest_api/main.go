@@ -50,6 +50,6 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user.ID = 4
-	http.StatusText(http.StatusCreated)
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }
