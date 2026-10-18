@@ -49,17 +49,18 @@ func main() {
 }
 
 func (s *UserStore) getUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	for _, user := range s.users {
 		if user.ID == id {
 			w.WriteHeader(http.StatusOK)
-			s.mu.Lock()
-			defer s.mu.Unlock()
+
 			json.NewEncoder(w).Encode(user)
 			return
 		}
