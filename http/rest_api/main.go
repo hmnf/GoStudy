@@ -67,14 +67,14 @@ func (s *UserStore) updateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var patchedUser User
-	err = validateUser(patchedUser)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
 	err = json.NewDecoder(r.Body).Decode(&patchedUser)
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	err = validateUser(patchedUser)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	s.mu.Lock()
