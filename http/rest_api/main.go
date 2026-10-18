@@ -38,21 +38,21 @@ func main() {
 	userStore := UserStore{
 		mu:     sync.Mutex{},
 		users:  users,
-		nextID: users[len(users)-1].ID,
+		nextID: users[len(users)-1].ID + 1,
 	}
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /users", handlerGet)
-	mux.HandleFunc("POST /users", handlerPost)
+	mux.HandleFunc("GET /users", userStore.getUsers)
+	mux.HandleFunc("POST /users", userStore.addUser)
 	http.ListenAndServe(":8080", mux)
 }
 
-func handlerGet(w http.ResponseWriter, r *http.Request) {
+func (s *UserStore) getUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(users)
+	json.NewEncoder(w).Encode(&s.users)
 }
 
-func handlerPost(w http.ResponseWriter, r *http.Request) {
+func (s *UserStore) addUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var user User
 
@@ -61,7 +61,12 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-	user.ID = 4
+	s.users = append(s.users, User{
+		ID:   s.nextID,
+		Name: user.Name,
+		Age:  user.Age,
+	})
+	s.nextID++
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }
