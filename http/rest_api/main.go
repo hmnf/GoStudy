@@ -59,7 +59,6 @@ func (s *UserStore) deleteUser(w http.ResponseWriter, r *http.Request) {
 	defer s.mu.Unlock()
 	for key, user := range s.users {
 		if user.ID == id {
-			s.nextID = id
 			s.users = append(s.users[:key], s.users[key+1:]...)
 			w.WriteHeader(http.StatusNoContent)
 			return
@@ -109,11 +108,6 @@ func (s *UserStore) addUser(w http.ResponseWriter, r *http.Request) {
 	user.ID = s.nextID
 	s.users = append(s.users, user)
 	s.nextID++
-	for _, user := range s.users {
-		if user.ID == s.nextID {
-			s.nextID++
-		}
-	}
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }
