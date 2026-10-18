@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"sync"
 )
 
@@ -12,7 +13,7 @@ type UserStore struct {
 	nextID int
 }
 type User struct {
-	ID   int
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 	Age  int    `json:"age"`
 }
@@ -43,7 +44,27 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /users", userStore.getUsers)
 	mux.HandleFunc("POST /users", userStore.addUser)
+	mux.HandleFunc("GET /users/{id}", userStore.getUser)
 	http.ListenAndServe(":8080", mux)
+}
+
+func (s *UserStore) getUser(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	for _, user := range s.users {
+		if user.ID == id {
+			w.WriteHeader(http.StatusOK)
+			s.mu.Lock()
+			defer s.mu.Unlock()
+			json.NewEncoder(w).Encode(user)
+			return
+		}
+	}
+	http.Error(w, "Not found", http.StatusNotFound)
 }
 
 func (s *UserStore) getUsers(w http.ResponseWriter, r *http.Request) {
