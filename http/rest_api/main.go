@@ -3,8 +3,14 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"sync"
 )
 
+type UserStore struct {
+	mu     sync.Mutex
+	users  []User
+	nextID int
+}
 type User struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
@@ -12,14 +18,6 @@ type User struct {
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("GET /users", handlerGet)
-	mux.HandleFunc("POST /users", handlerPost)
-	http.ListenAndServe(":8080", mux)
-}
-
-func handlerGet(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	users := []User{
 		{
 			ID:   1,
@@ -37,6 +35,20 @@ func handlerGet(w http.ResponseWriter, r *http.Request) {
 			Age:  40,
 		},
 	}
+	userStore := UserStore{
+		mu:     sync.Mutex{},
+		users:  users,
+		nextID: users[len(users)-1].ID,
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /users", handlerGet)
+	mux.HandleFunc("POST /users", handlerPost)
+	http.ListenAndServe(":8080", mux)
+}
+
+func handlerGet(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
 	json.NewEncoder(w).Encode(users)
 }
 
