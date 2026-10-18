@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"sync"
@@ -16,6 +17,14 @@ type User struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 	Age  int    `json:"age"`
+}
+
+func validateUser(user User) error {
+	if user.Name == "" || user.Age <= 0 {
+		return fmt.Errorf("Bad Request")
+	}
+
+	return nil
 }
 
 func main() {
@@ -58,6 +67,11 @@ func (s *UserStore) updateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var patchedUser User
+	err = validateUser(patchedUser)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	err = json.NewDecoder(r.Body).Decode(&patchedUser)
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
@@ -129,6 +143,11 @@ func (s *UserStore) addUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+	err = validateUser(user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	s.mu.Lock()
