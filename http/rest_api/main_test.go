@@ -31,10 +31,9 @@ func TestGetUsers(t *testing.T) {
 	userStore := UserStore{
 		mu:     sync.Mutex{},
 		users:  users,
-		nextID: 0,
+		nextID: 4,
 	}
 	req := httptest.NewRequest(http.MethodGet, "/users", nil)
-	req.Header.Set("Content-Type", "applicaton/json")
 	rec := httptest.NewRecorder()
 
 	userStore.getUsers(rec, req)
@@ -53,9 +52,12 @@ func TestGetUsers(t *testing.T) {
 		t.Fatal(err)
 	}
 	var usersRes []User
-	json.Unmarshal(data, &usersRes)
-
+	err = json.Unmarshal(data, &usersRes)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if !slices.Equal(userStore.users, usersRes) {
 		t.Fatalf("get data %v != want data %v", usersRes, userStore.users)
 	}
+	resp.Body.Close()
 }
