@@ -48,6 +48,7 @@ func TestGetUsers(t *testing.T) {
 	}
 
 	data, err := io.ReadAll(resp.Body)
+	defer resp.Body.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,5 +60,4 @@ func TestGetUsers(t *testing.T) {
 	if !slices.Equal(userStore.users, usersRes) {
 		t.Fatalf("get data %v != want data %v", usersRes, userStore.users)
 	}
-	resp.Body.Close()
 }
